@@ -71,3 +71,57 @@ kullaniciGetir(1)
   .then(kullanici2 => {
     console.log(kullanici2.isim);
   });
+
+
+
+  const promise = new Promise ((res,rej) => 
+  {
+    const success = Math.random() > 0.5
+
+    if(success){
+      res("Success")
+    }else{
+      rej("Fail")
+    }
+  })
+
+  promise
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
+
+  /*
+Challenge:
+1. Return a new promise. The promise should:
+    - create a new image and assign the incoming url 
+      to its src attribute. (Use the Image constructor 
+      for this!)
+    - listen out for a load event. If a load event is 
+      detected, the promise should resolve, providing the
+      image element.
+    - listen out for an “error” event. If an error 
+      event is detected, the promise should reject giving 
+      the message “img has NOT loaded”.
+*/
+
+function preLoadImg(url){
+  return new Promise ((resolve,reject) => {
+    const img = new Image();
+
+    img.addEventListener("load", () => {
+      resolve(img);
+    });
+    img.addEventListener("error", () => {
+      reject("Fail");
+    });
+
+    img.src = url;
+  })
+}
+
+try {
+  const results = await preLoadImg('https://scrimba.ams3.cdn.digitaloceanspaces.com/assets/courses/gadvancedjs/scenic1.jpg')
+  console.log(results)
+  document.getElementById('img-container').appendChild(results)
+} catch (error) {
+  console.error(error)
+}
